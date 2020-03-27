@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'storages',
 ]
 
 # Custom User Model
@@ -151,7 +151,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+#STATIC_URL = '/static/'
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 STATIC_ROOT='/opt/bitnami/apps/django/django_projects/Project/static'
 
@@ -178,3 +178,24 @@ EMAIL_USE_SSL=True
 # django-paypal settings
 PAYPAL_RECEIVER_EMAIL = 'danielrgrisham@gmail.com'
 PAYPAL_TEST = True
+
+AWS_ACCESS_KEY_ID='AKIAJPZJOHZRA6WN5ARA'
+AWS_SECRET_ACCESS_KEY='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'
+AWS_STORAGE_BUCKET_NAME='feastfreedomstatic'
+AWS_S3_CUSTOM_DOMAIN='%s.s3.amazonaws.com'%AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS={
+	'CacheControl':'max-age=86400',
+}
+AWS_LOCATION='static'
+
+STATICFILES_DIRS=[
+	#os.path.join(BASE_DIR,'Project/static'),
+	'/opt/bitnami/apps/django/django_projects/Project/static'
+]
+STATIC_URL='https://%s/%s/'%(AWS_S3_CUSTOM_DOMAIN,AWS_LOCATION)
+STATICFILES_STORAGE='storages.backends.s3boto3.S3Boto3Storage'
+
+
+
+
+
