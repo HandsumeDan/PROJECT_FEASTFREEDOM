@@ -1,0 +1,9 @@
+{% extends 'myApp/base.html' %}
+
+{% block content %}
+<b>Create a New Menu Item</b><br>
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Add">
+</form>
+{% endblock content %}

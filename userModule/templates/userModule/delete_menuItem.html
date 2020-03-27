@@ -1,0 +1,9 @@
+{% extends 'myApp/base.html' %}
+
+{% block content %}
+<b>Delete Menu Item</b><br>
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Delete">
+</form>
+{% endblock content %}

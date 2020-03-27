@@ -1,0 +1,39 @@
+{% extends "myApp/base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="product-detail">
+        <br>
+        <form method="post">{% csrf_token %}
+            <input type="submit" name="cancel" value="Return to Kitchens">
+            <input name="next" type="hidden" value="{% url 'userModule:kitchen_list' %}">
+        </form>
+        {% if user == kitchen.username %}
+            {% url 'userModule:updateRegisteredKitchen' pk=kitchen.id as kit_edit_url %}
+            {% url 'userModule:deleteRegisteredKitchen' pk=kitchen.id as kit_del_url %}
+            <h1>{{ kitchen.name }} (<a href="{{ kit_edit_url }}" style="color:red">Edit</a>) (<a href="{{ kit_del_url }}" style="color:red">Delete</a>)</h1>
+        {% else %}
+            <h1>{{ kitchen.name }}</h1>
+        {% endif %}
+        {{ kitchen.description|linebreaks }}<br>
+        <h1>Menu</h1><br>
+        {# <img src="{% if kitchen.image %}{{ kitchen.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}"> #}
+        {% for m in kitchen.menu.all %}
+            {% if user == kitchen.username %}
+                {% url 'userModule:editMenuItem' pk=m.id as edit_url %}
+                {% url 'userModule:deleteMenuItem' pk=m.id as del_url %}
+                <a href="{{ edit_url }}" style="color:red">Edit</a> || <a href="{{ del_url }}" style="color:red">Delete</a><br>
+            {% endif %}
+            <b>{{ m.name }}</b> || <span style="color:blue">${{ m.price }}</span>
+            {% if m.veg %}
+                <b><span style="color: green"><br>Vegetarian</span></b><br>
+            {% endif %}
+            <form action="{% url "cart:cart_add" m.id %}" method="post">
+                {{ cart_product_form }}
+                {% csrf_token %}
+                <input type="submit" value="Add to cart">
+            </form>
+            <br>
+        {% endfor %}
+    </div>
+{% endblock %}
