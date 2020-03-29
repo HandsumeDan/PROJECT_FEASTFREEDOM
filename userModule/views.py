@@ -138,6 +138,15 @@ class deleteRegisteredKitchen(DeleteView):
 
     success_url = '..'
 
+    def delete(self,request,*args,**kwargs):
+        self.object=self.get_object()
+        if self.object.username_id == request.user.id:
+            success_url=self.get_success_url()
+            self.object.delete()
+            return HttpResponseRedirect(success_url)
+        else:
+            return HttpResponse("You can not delete others' kitchens")
+
 @login_required
 def logout(request):
     logout(request)
