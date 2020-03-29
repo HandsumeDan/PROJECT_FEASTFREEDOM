@@ -2,7 +2,7 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-    <form method="post" enctype="multipart/form-data">{% csrf_token %}
+	<form method="post" enctype="multipart/form-data">{% csrf_token %}
 	    {# {{ form.as_p }} #}
 	    <h1>Add Your Kitchen's Details</h1>
 	    <br>
@@ -39,9 +39,10 @@
 	    <input type="submit" name="cancel" value="Cancel"> <input type="submit" value="Save">
 	</form>
 {% else %}
-    You must login with an account to register a kitchen.<br><br>
+    You must login with the account registered to this kitchen.<br><br>
     Please select one of the following options:<br>
     <a href="{% url 'userModule:login' %}">Login | </a>
     <a href="{% url 'userModule:signup' %}">Signup</a>
 {% endif %}
 {% endblock content %}
+
