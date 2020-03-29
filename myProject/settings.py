@@ -23,16 +23,21 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-
+import json
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+# Loading config file
+with open(os.path.join(BASE_DIR,'conf.json')) as conf_file:
+    SECRETS = json.load(conf_file)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '@qt8il7r6jgmw+(-c#dcrqls!t@i8psy9t0q==2qtk7+^s!mr#'
+SECRET_KEY = SECRETS["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -105,14 +110,14 @@ WSGI_APPLICATION = 'myProject.wsgi.application'
 #    }
 #}
 DATABASES = {
-	'default':{
-		'ENGINE':'django.db.backends.mysql',
-		'NAME':'testDataBase',
-		'USER':'root',
-		'PASSWORD':'gH0yiF7x5MR8',
-		'HOST':'/opt/bitnami/mysql/tmp/mysql.sock',
-		'PORT':'3306',
-	}
+    'default': {
+        'ENGINE': SECRETS["DATABASES"]["ENGINE"],
+        'NAME': SECRETS["DATABASES"]["NAME"],
+        'USER': SECRETS["DATABASES"]["USER"],
+        'PASSWORD': SECRETS["DATABASES"]["PASSWORD"],
+        'HOST': SECRETS["DATABASES"]["HOST"],
+        'PORT': SECRETS["DATABASES"]["PORT"],
+    }
 }
 
 # Password validation
